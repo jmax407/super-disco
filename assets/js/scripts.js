@@ -2,48 +2,22 @@ var loadedData = JSON.parse(localStorage.getItem("timeBlockArr"));
 var timeBlockArr = loadedData;
 
 if(!loadedData) {
-var  timeBlockArr = [
-    {
-      hour: "hour-9",
-      description: ""
-    },
-    {
-      hour: "hour-10",
-      description: ""
-    },
-    {
-      hour: "hour-11",
-      description: ""
-    },
-    {
-      hour: "hour-12",
-      description: ""
-    },
-    {
-      hour: "hour-13",
-      description: ""
-    },
-    {
-      hour: "hour-14",
-      description: ""
-    },
-    {
-      hour: "hour-15",
-      description: ""
-    },
-    {
-      hour: "hour-16",
-      description: ""
-    },
-    {
-      hour: "hour-17",
+  // empty array to hold time blocks
+  var  timeBlockArr = [];
+
+  // create time-blocks objects, matches id with html
+  for (var k = 9; k < $(".time-block").length + 9 ; k++ ) {
+    var timeBlockObj = {
+      hour: "hour-" + k,
       description: ""
     }
-  ];
+    // push timeblock object to timeblock array
+    timeBlockArr.push(timeBlockObj);
+  }
 }
 
-console.log(timeBlockArr);
 
+// displays descriptions to timeblocks
 for ( var i = 0; i < timeBlockArr.length; i++) {
   var selector = '#' + timeBlockArr[i].hour + ' .description';
   $(selector).val(timeBlockArr[i].description);
@@ -95,14 +69,13 @@ $(".time-block").on("change", "textarea", function() {
     if(timeBlockArr[i].hour === timeBlockId) {
       //$(this).description = textInput;
       timeBlockArr[i].description = textInput;
-      saveData();
+
     }
   }
   
-  console.log(timeBlockArr);
 });
 
-
+// checks every minute if  update past, present, future timeblocks
 setInterval(function() {
   taskCheck();
 }, (1000 * 60));
